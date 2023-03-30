@@ -10,7 +10,8 @@ document.getElementById("addTodo").addEventListener("click", async () => {
       body: JSON.stringify({ title, completed: false }),
     });
     const todo = await res.json();
-    console.log(todo);
+    todoToHtml(todo);
+    input.value = "";
   }
 });
 console.log("addTodo");
@@ -38,7 +39,7 @@ function todoToHtml({ id, completed, title }) {
     } />
   ${title}
   </label>
-  <button
+  <button onclick="deleteTodo(${id})"
     type="button"
     class="btn-close"
     aria-label="Close"
@@ -47,4 +48,17 @@ function todoToHtml({ id, completed, title }) {
 </div>
   `
   );
+}
+async function deleteTodo(id) {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+  const data = await res.json();
+  console.log(data);
+  if (data) {
+    document.getElementById(`todo${id}`).remove();
+  }
 }
