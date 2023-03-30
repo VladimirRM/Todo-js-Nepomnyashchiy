@@ -7,3 +7,24 @@ async function getAllTodos() {
 }
 
 window.addEventListener("DOMContentLoaded", getAllTodos);
+
+function todoToHtml({ id, completed, title }) {
+  const todoLIst = document.getElementById("todos");
+  todoLIst.insertAdjacentElement(
+    "beforeend",
+    `
+  <div class="form-check" id='todo${id}'>
+  <label class="form-check-label">
+    <input type="checkbox" class="form-check-input" />
+  ${title}
+  </label>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    style="font-size: 10px"
+  ></button>
+</div>
+  `
+  );
+}
