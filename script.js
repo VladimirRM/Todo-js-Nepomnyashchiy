@@ -34,7 +34,7 @@ function todoToHtml({ id, completed, title }) {
     `
   <div class="form-check" id='todo${id}'>
   <label class="form-check-label">
-    <input type="checkbox" class="form-check-input"  ${
+    <input onchange='toggleCompleteTodo(${id})' type="checkbox" class="form-check-input"  ${
       completed && "checked"
     } />
   ${title}
@@ -61,4 +61,18 @@ async function deleteTodo(id) {
   if (data) {
     document.getElementById(`todo${id}`).remove();
   }
+}
+
+async function toggleCompleteTodo(id) {
+  const completed = document.querySelector(` #todo${id} `).checked;
+
+  const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ completed }),
+  });
+  const data = await res.json();
+  console.log(data);
 }
