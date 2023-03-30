@@ -4,18 +4,19 @@ async function getAllTodos() {
   );
   const todos = await res.json();
   console.log(todos);
+  todos.forEach((todo) => todoToHtml(todo));
 }
 
 window.addEventListener("DOMContentLoaded", getAllTodos);
 
 function todoToHtml({ id, completed, title }) {
   const todoLIst = document.getElementById("todos");
-  todoLIst.insertAdjacentElement(
+  todoLIst.insertAdjacentHTML(
     "beforeend",
     `
   <div class="form-check" id='todo${id}'>
   <label class="form-check-label">
-    <input type="checkbox" class="form-check-input" />
+    <input type="checkbox" class="form-check-input"  checked='${completed} '/>
   ${title}
   </label>
   <button
